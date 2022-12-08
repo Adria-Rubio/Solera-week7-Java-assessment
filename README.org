@@ -1,0 +1,63 @@
+#+TITLE: Java Assessment -- Week 7
+
+Results of the api integration test:
+[[file:api-integration-test-results.png]]
+
+* User history
+As a product owner, I need a Java application that allows me to:
+- Connect to the hpel database.
+- Add information to a custom named table using a rest service (post action).
+- Retrieve the information of the custom named table using a rest service (get action).
+
+* pre-conditions:
+1. You need to create a custom named table into the hpel DB with your name using the base script listed below, for example *taniaVillegasTable* table.
+2. You need to create a Java application (Rest service) to populate the table created in the previous step. *Important: You cannot populate the table with any other method, for example: sql query.*
+3. Use the next parameters to connect the app to the azure database.
+
+*DON'T drop or modify any other table than the one you will create using your name*
+
+** /Initial script for table/
+#+begin_src sql
+USE hpel_july_2022;
+SET ANSI_NULLS ON
+
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[myNameTable](
+[id] [int] NULL,
+[firstName] [varchar](25) NULL,
+[lastName] [varchar](25) NULL,
+[phoneNumber] [varchar](20) NULL,
+[email] [varchar](25) NULL
+) ON [PRIMARY]
+GO
+#+end_src
+
+* Acceptance criteria
+ - Postman or any API consumer tool, with a screenshot of the evidence of your post calls to fill out your table.
+ - Java application execution screenshot with the information from your table (localhost site using get action).
+
+* Log
+** SQL Server
+*Attention. SQL Server installation sucks. I'm using MySQL.*
+
+1. I installed the SQL Server Management Studio with the command ~winget install Microsoft.SQLServerManagementStudio~.
+2. Realized I don't have permissions
+3. Proceed to install SQL server locally
+4. Try ~sqlcmd -S DESKTOP-V0PO5TQ -E~
+5. I don't like this. Search a way to use powershell to interact with the database. ~Install-Module -Name SqlServer~
+
+Source of the next notes: https://learn.microsoft.com/en-us/sql/powershell/sql-server-powershell?view=sql-server-ver16
+On powershell scripts, use ~Import-Module -Name SqlServer~. The module is installed at ~%ProgramFiles%\WindowsPowerShell\Modules\SqlServer~. No need to update the ~$env:PSModulePath~ variable.
+
+** MySQL
+Run 'mysqld --standalone' or 'mysqld --console' to start the Database, or run following command as administrator to register MySQL as a service. See: https://dev.mysql.com/doc/refman/en/windows-start-service.html
+#+begin_src shell
+mysqld --install MySQL --defaults-file="C:\Users\adria.rubio\scoop\apps\mysql\current\my.ini"
+#+end_src
+
+To stop and/or delete the Service run 'sc stop MySQL' and 'sc delete MySQL'.
+** Fuck it i'm using H2
+The title, lol.
